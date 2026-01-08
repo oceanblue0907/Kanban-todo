@@ -1,0 +1,289 @@
+:root {
+    --bg: #a2d2ff;
+    --column: rgba(255, 255, 255, 0.2);
+    --card: #ffffff;
+    --text: #1d3557;
+    --primary: #4cc9f0;
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+[data-theme="dark"] {
+    --bg: #2b2d42;
+    --column: rgba(0, 0, 0, 0.3);
+    --card: #3d405b;
+    --text: #f1faee;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#searchInput {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: none;
+  background: #deecf3;
+  color: #15264e;
+  font-size: 14px;
+  outline: none;
+  box-shadow: 0 6px 20px rgba(66, 193, 228, 0.3);
+}
+
+#searchInput::placeholder {
+  color: #0f172a;
+  opacity: 0.7;
+}
+
+.controls button {
+  height: 40px;
+  border-radius: 10px;
+}
+
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* --- Natural Cloud & Illustration --- */
+.sky-container {
+    position: fixed;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.cloud {
+    position: absolute;
+    background: #fff;
+    width: 150px; height: 50px;
+    border-radius: 50px;
+    opacity: 0.7;
+    filter: blur(2px);
+    animation: drift linear infinite;
+}
+
+.cloud::after, .cloud::before {
+    content: ''; position: absolute; background: #fff; border-radius: 50%;
+}
+.cloud::after { width: 70px; height: 70px; top: -35px; left: 20px; }
+.cloud::before { width: 50px; height: 50px; top: -20px; left: 70px; }
+
+.cloud-1 { top: 10%; left: -200px; animation-duration: 40s; }
+.cloud-2 { top: 25%; left: -250px; animation-duration: 60s; transform: scale(0.8); }
+.cloud-3 { top: 40%; left: -300px; animation-duration: 50s; transform: scale(1.2); }
+
+@keyframes drift { to { transform: translateX(120vw); } }
+
+/* --- Kanban Layout --- */
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.column {
+    background: var(--column);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    width: 320px;
+    padding: 20px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.column-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.count { background: var(--primary); color: white; padding: 2px 12px; border-radius: 20px; font-weight: bold; }
+
+.task {
+    background: var(--card);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    cursor: grab;
+    animation: taskPop 0.5s var(--transition);
+    position: relative;
+    border-left: 5px solid var(--primary);
+}
+
+/* Cloud color transition */
+.cloud, .cloud::after, .cloud::before {
+    transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Dark mode cloud style */
+[data-theme="dark"] .cloud,
+[data-theme="dark"] .cloud::after,
+[data-theme="dark"] .cloud::before {
+    background: #5c677d; /* Muted dark blue-grey */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Optional: Add a moon glow effect to one cloud in dark mode */
+[data-theme="dark"] .cloud-2 {
+    background: #e2e2e2 !important;
+    opacity: 0.9;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] .cloud-2::after,
+[data-theme="dark"] .cloud-2::before {
+    background: #e2e2e2 !important;
+}
+
+/* Cloud Transitions */
+.cloud, .cloud::after, .cloud::before {
+    transition: background 0.8s ease, box-shadow 0.8s ease;
+}
+
+/* Dark Mode Cloud Appearance */
+[data-theme="dark"] .cloud,
+[data-theme="dark"] .cloud::after,
+[data-theme="dark"] .cloud::before {
+    background: #5c677d; 
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+/* Star Twinkle Animation */
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+[data-theme="dark"] .star {
+    opacity: 0.8;
+    animation: twinkle var(--duration) infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.5); opacity: 1; }
+}
+
+@keyframes taskPop { from { opacity: 0; transform: scale(0.5) translateY(20px); } }
+
+.add-icon-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.add-icon-btn:hover { background: #0e6b83; transform: scale(1.02); }
+
+/* --- Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--card);
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.animate-bounce { animation: bounceIn 0.6s var(--transition); }
+@keyframes bounceIn { from { opacity: 0; transform: translateY(-100px); } }
+.modal input,
+.modal textarea {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: none;
+  background: #e9f1f3;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  box-shadow: 0 6px 20px rgba(79, 209, 245, 0.3);
+}
+
+.modal textarea {
+  height: 80px;
+  padding-top: 10px;
+  resize: none;
+}
+.modal button {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: none;
+  background: #f6f8f8;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(79, 209, 245, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(141, 212, 231, 0.45);
+}
+.modal .actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+.modal input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.modal {
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+.modal input,
+.modal textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+.modal textarea {
+  height: 70px;
+}
+
+.modal input {
+  height: 38px;
+}
+

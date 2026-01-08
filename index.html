@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamy Kanban Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="sky-container">
+        <div class="star"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="mountain"></div>
+    </div>
+
+    <div class="header">
+        <h1>Kanban Board</h1>
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search tasks..." onkeyup="filterTasks()">
+            <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+            <button class="clear-btn" onclick="clearBoard()">Clear Board</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="column col-todo" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="column-header">
+                <h2>To Do</h2>
+                <span class="count" id="todo-count">0</span>
+            </div>
+            <button class="add-icon-btn" onclick="openModal('todo')">+</button>
+            <div class="task-list" id="todo-tasks"></div>
+        </div>
+
+        <div class="column col-progress" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="column-header">
+                <h2>In Progress</h2>
+                <span class="count" id="inprogress-count">0</span>
+            </div>
+            <button class="add-icon-btn" onclick="openModal('inprogress')">+</button>
+            <div class="task-list" id="inprogress-tasks"></div>
+        </div>
+
+        <div class="column col-done" id="done" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="column-header">
+                <h2>Done</h2>
+                <span class="count" id="done-count">0</span>
+            </div>
+            <button class="add-icon-btn" onclick="openModal('done')">+</button>
+            <div class="task-list" id="done-tasks"></div>
+        </div>
+    </div>
+
+    <div id="taskModal" class="modal">
+        <div class="modal-content animate-bounce">
+            <h3 id="modalTitle">Task Details</h3>
+            <textarea id="taskInput" placeholder="What needs to be done?"></textarea>
+            <input type="date" id="taskDate">
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button class="save-btn" onclick="handleSave()">Save</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
